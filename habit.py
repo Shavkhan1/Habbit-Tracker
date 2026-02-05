@@ -39,7 +39,25 @@ class Habit:
             "created_at": self.created_at.isoformat(),
             "completed_dates": [d.isoformat() for d in self.completed_dates]
         }
+    
+    def longest_streak(self):
+        if not self.completed_dates:
+            return 0
 
+        sorted_dates = sorted(self.completed_dates)
+        
+        longest_streak = 1
+        current_streak = 1
+
+        for i in range(1, len(sorted_dates)):
+            if (sorted_dates[i] - sorted_dates[i - 1]).days == 1:
+                current_streak += 1
+            else:
+                longest_streak = max(longest_streak, current_streak)
+                current_streak = 1
+
+        longest_streak = max(longest_streak, current_streak)
+        return longest_streak
     @classmethod
     def from_dict(cls, data):
         habit = cls(data["name"])

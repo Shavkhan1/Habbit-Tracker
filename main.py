@@ -16,10 +16,15 @@ def main():
         choice = input("Choose an option: ")
 
         if choice == "1":
-            name = input("Enter habit name: ")
-            habit = Habit(name)
-            habits.append(habit)
-            save_habits(habits)
+            name = input("Enter habit name: ").strip()
+
+            if any(h.name.lower() == name.lower() for h in habits):
+                print("Habit already exists.")
+            else:
+                habit = Habit(name)
+                habits.append(habit)
+                save_habits(habits)
+                print(f"Habit '{name}' added.")
 
         elif choice == "2":
             for habit in habits:
@@ -46,8 +51,9 @@ def main():
 
         elif choice == "5":
             for habit in habits:
-                print(f"{habit.name} streak: {habit.count_streak()}")
-
+                print(f"{habit.name}")
+                print(f"  Current streak: {habit.count_streak()}")
+                print(f"  Longest streak: {habit.longest_streak()}")
         elif choice == "6":
             break
 
